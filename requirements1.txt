@@ -1,0 +1,6 @@
+Flask==2.2.2
+numpy
+Pillow
+requests
+tqdm
+Werkzeug==2.2.2
