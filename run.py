@@ -89,7 +89,7 @@ def run(
         # add path to save results
         save_directory = None,
         # add top k results
-        topk = 10,
+        topk = 5,
         postfix_img_="",
 ):
     source = str(source)
