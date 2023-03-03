@@ -10,7 +10,8 @@ from run import prepare_model, run
 TMP_ROUTE = 'tmp'
 INPUT_ROUTE = 'data2'
 OUTPUT_ROUTE = 'output'
-MODEL, DEVICE = prepare_model()
+MODEL1, DEVICE1 = prepare_model(weights="./model_dataset/dog/best1.pt")
+MODEL2, DEVICE2 = prepare_model(weights="./model_dataset/dog/best1.pt")
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -48,7 +49,8 @@ def infer():
                 zip_ref.extractall(INPUT_ROUTE)
             
             tic = time.time()
-            run(model=MODEL, device=DEVICE, save_directory=f"./{OUTPUT_ROUTE}/", source=INPUT_ROUTE+"/content/drive/MyDrive/output_client/*.jpg")
+            run(model=MODEL1, device=DEVICE1, save_directory=f"./{OUTPUT_ROUTE}/", source=INPUT_ROUTE+"/content/drive/MyDrive/output_client/*.jpg", postfix_img_="_1")
+            run(model=MODEL2, device=DEVICE2, save_directory=f"./{OUTPUT_ROUTE}/", source=INPUT_ROUTE+"/content/drive/MyDrive/output_client/*.jpg", postfix_img_="_2")
             print("Calling run function: ", time.time() - tic)
 
             output_zip = TMP_ROUTE + '/data.zip'

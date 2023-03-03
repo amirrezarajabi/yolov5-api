@@ -90,6 +90,7 @@ def run(
         save_directory = None,
         # add top k results
         topk = 10,
+        postfix_img_="",
 ):
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
@@ -230,7 +231,7 @@ def run(
               # Save results (image with detections)
               if save_img:
                   if dataset.mode == 'image':
-                      cv2.imwrite(save_path, im0)
+                      cv2.imwrite(save_path.replace(".", f"{postfix_img_}."), im0)
                   else:  # 'video' or 'stream'
                       if vid_path[i] != save_path:  # new video
                           vid_path[i] = save_path
