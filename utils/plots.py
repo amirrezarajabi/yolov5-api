@@ -89,8 +89,8 @@ class Annotator:
             self.draw.rectangle(box, width=self.lw, outline=color)  # box
             if label:
                 box_tmp = box[0]
-                if box[0] + 150 >= self.im.size[0]:
-                  box_tmp = box[0] - 150
+                if box[0] + 250 >= self.im.size[0]:
+                  box_tmp = box[0] - 250
                 w, h = self.font.getsize(label)  # text width, height
                 outside = box[1] - h >= 0  # label fits outside box
                 self.draw.rectangle(
