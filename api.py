@@ -11,7 +11,7 @@ TMP_ROUTE = 'tmp'
 INPUT_ROUTE = 'data2'
 OUTPUT_ROUTE = 'output'
 MODEL1, DEVICE1 = prepare_model(weights="./model_dataset/dog/best1.pt")
-MODEL2, DEVICE2 = prepare_model(weights="./model_dataset/dog/best1.pt")
+MODEL2, DEVICE2 = prepare_model(weights="./model_dataset/dog/best2.pt")
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
