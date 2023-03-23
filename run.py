@@ -112,9 +112,9 @@ def run(
         (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
-    device = device
-    model = model
-    stride, names, pt = model.stride, model.names, model.pt
+    device = device[0]
+    models = model
+    stride, names, pt = models[0].stride, models[0].names, models[0].pt
     imgsz = check_img_size(imgsz, s=stride)  # check image size
 
     # Dataloader
@@ -149,7 +149,12 @@ def run(
         # Inference
         with dt[1]:
             visualize = increment_path(save_dir / Path(path).stem, mkdir=True) if visualize else False
-            pred = model(im, augment=augment, visualize=visualize)
+            preds = []
+            for model in models:
+                pred = model(im, augment=augment, visualize=visualize)[0]
+                preds.append(pred)
+            pred = torch.cat(preds, dim=1)
+
 
         # NMS
         with dt[2]:
@@ -193,7 +198,7 @@ def run(
               s += '%gx%g ' % im.shape[2:]  # print string
               gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
               imc = im0.copy() if save_crop else im0  # for save_crop
-              annotator = Annotator(im0, line_width=line_thickness, example=str(names))
+              annotator = Annotator(im0, line_width=line_thickness, example=str(names), pil=True, font_size=20)
               if len(det):
                   # Rescale boxes from img_size to im0 size
                   det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
