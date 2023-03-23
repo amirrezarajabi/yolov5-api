@@ -13,8 +13,28 @@ OUTPUT_ROUTE = 'output'
 MODEL1, DEVICE1 = prepare_model(weights="./model_dataset/dog/best1.pt")
 MODEL2, DEVICE2 = prepare_model(weights="./model_dataset/dog/best2.pt")
 
-MODELS = [MODEL1, MODEL2]
-DEVICES = [DEVICE1, DEVICE2]
+MODEL3, DEVICE3 = prepare_model(weights="./model_dataset/horse/best.pt")
+
+DOGMODELS = [MODEL1, MODEL2]
+DOGDEVICES = [DEVICE1, DEVICE2]
+
+HORSEMODELS = [MODEL3]
+HORSEDEVICES = [DEVICE3]
+
+ANIMALSMODELS = {
+    "dog":DOGMODELS,
+    "horse":HORSEMODELS
+}
+
+ANIMALSDEVICES = {
+    "dog":DOGDEVICES,
+    "horse":HORSEDEVICES
+}
+
+IMGSZ = {
+    "dog":(512, 512),
+    "horse":(1024, 1024)
+}
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -42,6 +62,7 @@ def wrong_method():
 def infer():
 
     file = request.files.get('file')
+    animal = request.json.get('animal')
     if file and file.filename != '' and file.filename.endswith('.zip'):
         try:
             secure_name = secure_filename(file.filename)
@@ -52,7 +73,7 @@ def infer():
                 zip_ref.extractall(INPUT_ROUTE)
             
             tic = time.time()
-            run(model=MODELS, device=DEVICES, save_directory=f"./{OUTPUT_ROUTE}/", source=INPUT_ROUTE+"/content/output_client/*.jpg")
+            run(model=ANIMALSMODELS[animal], device=ANIMALSDEVICES[animal], save_directory=f"./{OUTPUT_ROUTE}/", source=INPUT_ROUTE+"/content/output_client/*.jpg", imgsz=IMGSZ[animal])
             print("Calling run function: ", time.time() - tic)
 
             output_zip = TMP_ROUTE + '/data.zip'
