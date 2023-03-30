@@ -8,14 +8,18 @@ import zipfile
 from run import prepare_model, run
 
 TMP_ROUTE = 'tmp'
-INPUT_ROUTE = 'data2'
+INPUT_ROUTE = 'input'
 OUTPUT_ROUTE = 'output'
-MODEL1, DEVICE1 = prepare_model(weights="./model_dataset/dog/best1.pt")
-MODEL2, DEVICE2 = prepare_model(weights="./model_dataset/dog/best2.pt")
-MODEL3, DEVICE3 = prepare_model(weights="./model_dataset/horse/best.pt")
 
-DOGMODELS = [MODEL1, MODEL2]
-DOGDEVICES = [DEVICE1, DEVICE2]
+# Loading dog models
+MODEL1, DEVICE1 = prepare_model(weights="./model_dataset/dog/best1.pt")
+# Loading horse models
+MODEL3, DEVICE3 = prepare_model(weights="./model_dataset/horse/best1.pt")
+
+
+# Preparing to use the model by specifying the type of animal
+DOGMODELS = [MODEL1]
+DOGDEVICES = [DEVICE1]
 
 HORSEMODELS = [MODEL3]
 HORSEDEVICES = [DEVICE3]
